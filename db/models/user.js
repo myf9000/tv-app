@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 
 const Schema = mongoose.Schema;
 
@@ -33,6 +34,13 @@ const userSchema = new Schema({
     },
   }],
 });
+
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  return _.pick(userObject, ['_id', 'email']);
+};
 
 userSchema.methods.generateAuthToken = function () {
   const user = this;
