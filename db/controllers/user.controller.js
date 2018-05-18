@@ -1,14 +1,16 @@
 const User = require('../models/user');
 
 const signUp = (req, res) => {
-  const user = new User();
-  user.email = req.body.email;
-  user.password = req.body.password;
+  const user = new User({
+    email: req.body.email,
+    password: req.body.password,
+  });
 
   user.save()
-    .then((save) => {
-      res.status(200);
-      res.json(save);
+    .then(() => {
+      return user.generateAuthToken();
+    }).then((token) => {
+      res.header('x-auth', token).send(user);
     })
     .catch(err => res.send(err.message));
 };
