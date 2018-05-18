@@ -1,22 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const db = require('./db/database');
-const PlayerController = require('./db/controllers/player.controller');
-
+const user = require('./db/routes/user');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   const app = express();
+  const port = process.env.PORT || 3001;
 
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  app.use(morgan('combined'));
+  app.use(bodyParser.json({ type: '*/*' }));
 
-  app.get('/players', PlayerController.fetchPlayers);
-  app.post('/players', PlayerController.createPlayer);
-  app.delete('/players/:id', PlayerController.removePlayer);
-  app.put('/players/:id', PlayerController.changeScore);
+  app.use('/', user);
 
-  app.listen(3001, () => {
-    console.log('Sever is running.');
+  app.listen(port, () => {
+    console.log(`Server - db is running on port ${port}`);
   });
 });
