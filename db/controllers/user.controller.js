@@ -1,6 +1,6 @@
 const User = require('../models/user');
 
-const signUp = (req, res) => {
+const createUser = (req, res) => {
   const user = new User({
     email: req.body.email,
     password: req.body.password,
@@ -15,7 +15,12 @@ const signUp = (req, res) => {
     .catch(err => res.send(err.message));
 };
 
+const signUp = (req, res) => {
+  res.send(req.user);
+};
+
 module.exports = {
+  createUser,
   signUp,
 };
 
