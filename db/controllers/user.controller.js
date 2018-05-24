@@ -1,6 +1,7 @@
+const _ = require('lodash');
 const User = require('../models/user');
 
-const createUser = (req, res) => {
+const signUp = (req, res) => {
   const user = new User({
     email: req.body.email,
     password: req.body.password,
@@ -15,12 +16,21 @@ const createUser = (req, res) => {
     .catch(err => res.send(err.message));
 };
 
-const signUp = (req, res) => {
+const getUser = (req, res) => {
   res.send(req.user);
 };
 
+const signIn = (req, res) => {
+  const body = _.pick(req.body, ['email', 'password']);
+  User.findByCredentials(body.email, body.password)
+    .then(user => user.generateAuthToken()
+      .then(token => res.header('x-auth', token).send(user)))
+    .catch(() => res.status(400).send());
+};
+
 module.exports = {
-  createUser,
   signUp,
+  getUser,
+  signIn,
 };
 
