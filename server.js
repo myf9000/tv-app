@@ -9,9 +9,11 @@ const user = require('./db/routes/user');
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   const app = express();
+
   const port = process.env.PORT;
 
   app.use(morgan('combined'));
+  app.use(express.static('assets'));
   app.use(bodyParser.json({ type: '*/*' }));
 
   app.use('/', user);
