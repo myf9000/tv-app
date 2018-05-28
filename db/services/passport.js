@@ -1,10 +1,20 @@
-// const passport = require('passport');
-// const User = require('../models/user');
-// const config = require('../config/config');
-// const JwtStrategy = require('passport-jwt').Strategy;
-// const ExtractJwt = require('passport-jwt').ExtractJwt;
+const passport = require("passport");
+const User = require("../models/user");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 
-// const jwtOptions = {};
-// const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
+const opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = process.env.JWT_SECRET;
 
-// });
+module.exports = passport => {
+  passport.use(
+    new JwtStrategy(opts, (paylod, done) => {
+      User.findById(paylod._id)
+        .then(user => 
+          user ? done(null, user) : done(null, false)
+        )
+        .catch(err => console.log(err));
+    })
+  );
+};

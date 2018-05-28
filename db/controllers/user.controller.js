@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const gravatar = require("gravatar");
 const User = require("../models/user");
@@ -20,31 +21,34 @@ const signUp = (req, res) => {
         avatar
       });
 
-      user
-        .save()
-        .then(() => {
-          return user.generateAuthToken();
-        })
-        .then(token => {
-          res.header("x-auth", token).send(user);
-        })
+      user.save()
+        .then(user => res.json(user))
         .catch(err => res.send(err.message));
     }
   });
 };
 
 const getUser = (req, res) => {
-  res.send(req.user);
+  console.log(req.user);
+  res.json(req.user);
 };
 
 const signIn = (req, res) => {
   const body = _.pick(req.body, ["email", "password"]);
   User.findByCredentials(body.email, body.password)
-    .then(user =>
-      user
-        .generateAuthToken()
-        .then(token => res.header("x-auth", token).send(user))
-    )
+    .then(user => {
+      jwt.sign(
+        { _id: user._id.toHexString() }, 
+        process.env.JWT_SECRET, 
+        { expiresIn: "3h" },
+        (err, token) => {
+          res.json({
+            success: true,
+            token: 'Bearer ' + token,
+          });
+        }
+      );
+    })
     .catch(() => res.status(400).send());
 };
 

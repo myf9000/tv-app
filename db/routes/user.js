@@ -1,10 +1,14 @@
 const express = require("express");
+const passport = require("passport");
 
 const routes = express.Router();
 const UserController = require("../controllers/user.controller");
-const authenticate = require("../middleware/authenticate");
 
-routes.get("/account", authenticate, UserController.getUser);
+routes.get(
+  "/account",
+  passport.authenticate("jwt", { session: false }),
+  UserController.getUser
+);
 routes.post("/login", UserController.signIn);
 routes.post("/register", UserController.signUp);
 

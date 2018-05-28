@@ -3,10 +3,9 @@ require("./db/config/config");
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const passport = require("passport");
 const db = require("./db/database");
 const user = require("./db/routes/user");
-const profile = require("./db/routes/profile");
-const posts = require("./db/routes/posts");
 
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -18,9 +17,10 @@ db.once("open", () => {
   app.use(express.static("assets"));
   app.use(bodyParser.json({ type: "*/*" }));
 
-  app.use("/user", user);
-  app.use("/profile", profile);
-  app.use("/posts", posts);
+  app.use(passport.initialize());
+  require("./db/services/passport")(passport);
+
+  app.use("/", user);
 
   app.listen(port, () => {
     console.log(`Server - db is running on port ${port}`);
