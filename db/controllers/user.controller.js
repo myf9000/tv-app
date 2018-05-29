@@ -1,12 +1,20 @@
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const gravatar = require("gravatar");
+const validateRegisterInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 const User = require("../models/user");
 
 const signUp = (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      return res.status(400).json({ Email: "Email already exists" });
+      errors.email = "Email already exists";
+      return res.status(400).json(errors);
     } else {
       const avatar = gravatar.url(req.body.email, {
         s: "200",
@@ -29,11 +37,16 @@ const signUp = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  console.log(req.user);
   res.json(req.user);
 };
 
 const signIn = (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const body = _.pick(req.body, ["email", "password"]);
   User.findByCredentials(body.email, body.password)
     .then(user => {
@@ -49,7 +62,11 @@ const signIn = (req, res) => {
         }
       );
     })
-    .catch(() => res.status(400).send());
+    .catch(data => { 
+      const arr = Object.values(data);
+      errors[arr[0]] = arr[1];
+      res.status(400).json(errors);
+    });
 };
 
 module.exports = {

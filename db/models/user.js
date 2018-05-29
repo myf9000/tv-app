@@ -66,12 +66,12 @@ UserSchema.statics.findByCredentials = function(email, password) {
 
   return User.findOne({ email }).then(user => {
     if (!user) {
-      return Promise.reject("User not found");
+      return Promise.reject({ type: "email", msg: "User not found" });
     }
 
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, user.password, (err, res) => {
-        res ? resolve(user) : reject("Incorrect password");
+        res ? resolve(user) : reject({ type: "password", msg: "Incorrect password" });
       });
     });
   });
