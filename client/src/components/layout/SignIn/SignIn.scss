@@ -1,0 +1,71 @@
+.signin-form {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 5px 20px #cecece;
+  height: 500px;
+  margin: 100px auto;
+  width: 400px;
+
+  h1 {
+    font-size: 38px;
+    padding-top: 50px;
+    text-align: center;
+  }
+}
+
+.signin-brand {
+  align-items: center;
+  display: inline-flex;
+  height: 65px;
+  justify-content: center;
+  width: 100%;
+  font-size: 20px;
+   a {
+    color: white;
+    text-decoration: none;
+   }
+   .signin-logo {
+     width: 80px;
+     height: 100%;
+   }
+   h2 {
+     margin: 40px 10px 30px;
+   }
+}
+
+.signin-inputs {
+  margin-top: 70px;
+  input {
+    background-color: #fff0;
+    border: none;
+    border-bottom: 1px solid #7979ff;
+    display: block;
+    font-size: 18px;
+    font-weight: 300;
+    margin: 10px auto;
+    margin-top: 40px;
+    outline: none;
+    padding-bottom: 8px;
+    padding-left: 5px;
+    width: 240px;
+  }
+}
+
+.signin-button {
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  display: block;
+  font-size: 16px;
+  margin: 55px auto;
+  padding: 10px;
+  width: 160px;
+  background-color: #7979ff;
+  color: white;
+}
+
+.signin-button:hover {
+  background-color: white;
+  border: 1px solid #7979ff;
+  color: blue;
+}

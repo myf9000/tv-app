@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
-import SignIn from './SignInForm';
+import React, { Component } from "react";
+import Navbar from './components/layout/Navbar/Navbar';
+import Landing from './components/layout/Landing/Landing';
 
 class App extends Component {
   render() {
     return (
-      <SignIn />
+      <div>
+        <Navbar />
+        <Landing />
+      </div>
     );
   }
 }
