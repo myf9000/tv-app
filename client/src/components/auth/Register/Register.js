@@ -32,10 +32,7 @@ class Register extends Component {
     axios
       .post("/api/register", newUser)
       .then(res => console.log(res.data))
-      .catch(err => {
-        this.setState({ errors: err.response.data });
-        console.log(this.state.errors);
-      });
+      .catch(err => this.setState({ errors: err.response.data }));
   };
   render() {
     const { errors } = this.state;
@@ -106,7 +103,7 @@ class Register extends Component {
               {errors.password2 && <div class="invalid-feedback">{errors.password2}</div>}
             </div>
           </div>
-          <button type="submit" className="auth-button">
+          <button type="submit" className="auth-button register-button">
             Sign Up
           </button>
         </form>
