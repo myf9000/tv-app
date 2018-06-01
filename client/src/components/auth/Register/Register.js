@@ -58,7 +58,7 @@ class Register extends Component {
                 value={this.state.name}
                 onChange={this.onChange}
               />
-              {errors.name && <div class="invalid-feedback">{errors.name}</div>}
+              {errors.name && <div className="invalid-feedback">{errors.name}</div>}
             </div>
             <div className="input-wrapper">
               <input
@@ -72,7 +72,7 @@ class Register extends Component {
                 value={this.state.email}
                 onChange={this.onChange}
               />
-              {errors.email && <div class="invalid-feedback">{errors.email}</div>}
+              {errors.email && <div className="invalid-feedback">{errors.email}</div>}
             </div>
             <div className="input-wrapper">
               <input
@@ -86,7 +86,7 @@ class Register extends Component {
                 value={this.state.password}
                 onChange={this.onChange}
               />
-              {errors.password && <div class="invalid-feedback">{errors.password}</div>}
+              {errors.password && <div className="invalid-feedback">{errors.password}</div>}
             </div>
             <div className="input-wrapper">
               <input
@@ -100,7 +100,7 @@ class Register extends Component {
                 value={this.state.password2}
                 onChange={this.onChange}
               />
-              {errors.password2 && <div class="invalid-feedback">{errors.password2}</div>}
+              {errors.password2 && <div className="invalid-feedback">{errors.password2}</div>}
             </div>
           </div>
           <button type="submit" className="auth-button register-button">
