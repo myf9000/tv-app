@@ -1,0 +1,8 @@
+
+// AUTH REDUCER
+
+export const REGISTER_USER = 'REGISTER_USER';
+
+// ERRORS REDUCER
+
+export const GET_ERRORS = 'GET_ERROS';

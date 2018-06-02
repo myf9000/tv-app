@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
+import PropTypes from 'prop-types';
 import classnames from "classnames";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { registerUserRequest } from '../../../actions/authActions';
 import logo from "../../../images/television.svg";
 import "./Register.css";
 import "../auth-common.css";
@@ -16,6 +19,11 @@ class Register extends Component {
       errors: {}
     };
   }
+  componentDidUpdate(prevProps) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors })
+    }
+  } 
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -29,14 +37,10 @@ class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    axios
-      .post("/api/register", newUser)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.registerUser(newUser, this.props.history);
   };
   render() {
     const { errors } = this.state;
-
     return (
       <div className="register">
         <form className="auth-form register-form" onSubmit={this.onSubmit}>
@@ -58,7 +62,7 @@ class Register extends Component {
                 value={this.state.name}
                 onChange={this.onChange}
               />
-              {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+              {errors.name && (<div className="invalid-feedback">{errors.name}</div>)}
             </div>
             <div className="input-wrapper">
               <input
@@ -72,7 +76,7 @@ class Register extends Component {
                 value={this.state.email}
                 onChange={this.onChange}
               />
-              {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+              {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
             </div>
             <div className="input-wrapper">
               <input
@@ -86,7 +90,7 @@ class Register extends Component {
                 value={this.state.password}
                 onChange={this.onChange}
               />
-              {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+              {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
             </div>
             <div className="input-wrapper">
               <input
@@ -100,7 +104,7 @@ class Register extends Component {
                 value={this.state.password2}
                 onChange={this.onChange}
               />
-              {errors.password2 && <div className="invalid-feedback">{errors.password2}</div>}
+              {errors.password2 && (<div className="invalid-feedback">{errors.password2}</div>)}
             </div>
           </div>
           <button type="submit" className="auth-button register-button">
@@ -112,4 +116,19 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+const mapDispatchToProps = {
+  registerUser: registerUserRequest
+}
+
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Register));
