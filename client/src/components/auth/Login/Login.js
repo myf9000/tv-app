@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUserRequest } from '../../../actions/authActions';
 import classnames from 'classnames';
 import axios from 'axios';
 import logo from "../../../images/television.svg";
@@ -13,6 +16,12 @@ class Login extends Component {
       errors: {}
     };
   }
+  componentDidUpdate(prevProps) {
+    const { isAuthenticated } = this.props.auth;
+    if (isAuthenticated) {
+      this.props.history.push('/dashboard')
+    }
+  }
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -24,17 +33,14 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    axios
-      .post("/api/login", user)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.loginUser(user);
   };
   render() {
-    const { errors } = this.state;
+    const { errors } = this.props;
 
     return (
       <div className="login">
-        <form className="auth-form login-form" onSubmit={this.onSubmit}>
+        <form className="auth-form login-form">
           <h1>Sign in</h1>
           <div className="auth-brand">
             <img className="auth-logo" src={logo} alt="tv app logo" />
@@ -69,16 +75,31 @@ class Login extends Component {
                 value={this.state.password}
                 onChange={this.onChange}
               />
-              {errors.email && (
+              {errors.password && (
                 <div className="invalid-feedback">{errors.password}</div>
               )}
             </div>
           </div>
-          <button className="auth-button login-button">Sign Up</button>
+          <button className="auth-button login-button" onClick={this.onSubmit}>Sign Up</button>
         </form>
       </div>
     );
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+const mapDispatchToProps = {
+  loginUser: loginUserRequest
+};
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

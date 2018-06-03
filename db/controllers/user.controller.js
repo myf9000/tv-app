@@ -51,7 +51,11 @@ const signIn = (req, res) => {
   User.findByCredentials(body.email, body.password)
     .then(user => {
       jwt.sign(
-        { _id: user._id.toHexString() }, 
+        { 
+          _id: user._id,
+          name: user.name,
+          avatar: user.avatar
+        }, 
         process.env.JWT_SECRET, 
         { expiresIn: "3h" },
         (err, token) => {
