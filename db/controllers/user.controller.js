@@ -57,7 +57,7 @@ const signIn = (req, res) => {
           avatar: user.avatar
         }, 
         process.env.JWT_SECRET, 
-        { expiresIn: "3h" },
+        { expiresIn: "24h" },
         (err, token) => {
           res.json({
             success: true,

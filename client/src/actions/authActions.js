@@ -36,3 +36,11 @@ export const loginUserRequest = userData => {
       .catch(err => dispatch(getErrors(err.response.data)));
   };
 };
+
+export const logoutUser = () => {
+  return dispatch => {
+    localStorage.removeItem('jwtToken');
+    setAuthToken(false);
+    dispatch(setCurrentUser({}));
+  }
+}

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { loginUserRequest } from '../../../actions/authActions';
-import classnames from 'classnames';
-import axios from 'axios';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUserRequest } from "../../../actions/authActions";
+import classnames from "classnames";
+import axios from "axios";
 import logo from "../../../images/television.svg";
 import "./Login.css";
 
@@ -16,10 +16,15 @@ class Login extends Component {
       errors: {}
     };
   }
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
   componentDidUpdate(prevProps) {
     const { isAuthenticated } = this.props.auth;
     if (isAuthenticated) {
-      this.props.history.push('/dashboard')
+      this.props.history.push("/dashboard");
     }
   }
   onChange = e => {
@@ -80,7 +85,9 @@ class Login extends Component {
               )}
             </div>
           </div>
-          <button className="auth-button login-button" onClick={this.onSubmit}>Sign Up</button>
+          <button className="auth-button login-button" onClick={this.onSubmit}>
+            Sign Up
+          </button>
         </form>
       </div>
     );
@@ -100,6 +107,6 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

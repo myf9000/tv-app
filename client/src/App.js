@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import { setCurrentUser } from './actions/authActions';
+import { setCurrentUser, logoutUser } from './actions/authActions';
 import store from './store';
 
 import Navbar from "./components/layout/Navbar/Navbar";
@@ -12,10 +12,16 @@ import Register from './components/auth/Register/Register';
 
 // Check for token
 const { jwtToken} = localStorage;
-if(jwtToken) {
+if (jwtToken) {
   setAuthToken(jwtToken);
   const decoded = jwt_decode(jwtToken);
   store.dispatch(setCurrentUser(decoded));
+
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    store.dispatch(logoutUser());
+    window.location.href('/login');
+  }
 }
 
 class App extends Component {
