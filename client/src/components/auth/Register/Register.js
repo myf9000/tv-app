@@ -49,10 +49,10 @@ class Register extends Component {
     return (
       <div className="register">
         <form className="auth-form register-form" onSubmit={this.onSubmit}>
-          <h1>Sign up</h1>
+          <h1>SIGN UP</h1>
           <div className="auth-brand">
             <img className="auth-logo" src={logo} alt="tv app logo" />
-            <h2>to TV App</h2>
+            <h2>TV App</h2>
           </div>
           <div className="inputs-container">
             <div className="input-wrapper">

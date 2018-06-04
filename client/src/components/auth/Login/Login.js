@@ -26,6 +26,9 @@ class Login extends Component {
     if (isAuthenticated) {
       this.props.history.push("/dashboard");
     }
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors })
+    }
   }
   onChange = e => {
     this.setState({
@@ -41,15 +44,15 @@ class Login extends Component {
     this.props.loginUser(user);
   };
   render() {
-    const { errors } = this.props;
+    const { errors } = this.state;
 
     return (
       <div className="login">
         <form className="auth-form login-form">
-          <h1>Sign in</h1>
+          <h1>SIGN IN</h1>
           <div className="auth-brand">
             <img className="auth-logo" src={logo} alt="tv app logo" />
-            <h2>to TV App</h2>
+            <h2>TV App</h2>
           </div>
           <div className="inputs-container">
             <div className="input-wrapper">
