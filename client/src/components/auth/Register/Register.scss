@@ -1,8 +1,15 @@
+.register {
+  display: flex;
+  height: calc(100vh - 55px);
+}
+
 .register-form {
   height: 550px;
   width: 440px;
+  align-self: center;
 }
 
 .register-button {
   margin: 20px auto;
 }
+

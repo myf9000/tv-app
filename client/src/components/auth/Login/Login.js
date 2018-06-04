@@ -46,10 +46,10 @@ class Login extends Component {
     return (
       <div className="login">
         <form className="auth-form login-form">
-          <h1>Sign in</h1>
+          <h1>SIGN IN</h1>
           <div className="auth-brand">
             <img className="auth-logo" src={logo} alt="tv app logo" />
-            <h2>to TV App</h2>
+            <h2>TV App</h2>
           </div>
           <div className="inputs-container">
             <div className="input-wrapper">

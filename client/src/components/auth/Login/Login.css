@@ -1,4 +1,9 @@
+.login {
+  display: flex;
+  height: calc(100vh - 55px); }
+
 .login-form {
+  align-self: center;
   height: 400px;
   width: 440px; }
 

@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const passport = require("passport");
+const path = require("path");
 const db = require("./db/database");
 const user = require("./db/routes/user");
 
@@ -21,6 +22,14 @@ db.once("open", () => {
   require("./db/services/passport")(passport);
 
   app.use("/", user);
+
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+
+    app.get("*", (req,res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+  }
 
   app.listen(port, () => {
     console.log(`Server - db is running on port ${port}`);
